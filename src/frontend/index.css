@@ -1,0 +1,251 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Fonts ──────────────────────────────────────────── */
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/assets/fonts/JetBrainsMono[wght].woff2") format("woff2");
+  font-weight: 100 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/assets/fonts/GeistMono[wght].woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mona Sans";
+  src: url("/assets/fonts/MonaSans[wdth,wght].woff2") format("woff2 supports variations"),
+       url("/assets/fonts/MonaSans[wdth,wght].woff2") format("woff2");
+  font-weight: 200 900;
+  font-stretch: 75% 125%;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --radius: 0.25rem;
+
+    /* ── Terminal Green Palette ── */
+    --background:      0.08 0 0;
+    --foreground:      0.92 0.18 142;
+    --card:            0.11 0.01 142;
+    --card-foreground: 0.92 0.18 142;
+    --popover:         0.11 0.01 142;
+    --popover-foreground: 0.92 0.18 142;
+    --primary:         0.82 0.22 142;
+    --primary-foreground: 0.06 0 0;
+    --secondary:       0.14 0.02 142;
+    --secondary-foreground: 0.82 0.22 142;
+    --muted:           0.14 0.01 142;
+    --muted-foreground: 0.52 0.08 142;
+    --accent:          0.68 0.26 142;
+    --accent-foreground: 0.06 0 0;
+    --destructive:     0.65 0.26 25;
+    --destructive-foreground: 0.98 0 0;
+    --border:          0.22 0.04 142;
+    --input:           0.16 0.03 142;
+    --ring:            0.72 0.20 142;
+
+    /* Chart colors */
+    --chart-1: 0.82 0.22 142;
+    --chart-2: 0.68 0.26 142;
+    --chart-3: 0.52 0.18 142;
+    --chart-4: 0.65 0.26 25;
+    --chart-5: 0.72 0.16 200;
+
+    /* Sidebar */
+    --sidebar:                  0.10 0.01 142;
+    --sidebar-foreground:       0.92 0.18 142;
+    --sidebar-primary:          0.82 0.22 142;
+    --sidebar-primary-foreground: 0.06 0 0;
+    --sidebar-accent:           0.14 0.02 142;
+    --sidebar-accent-foreground: 0.82 0.22 142;
+    --sidebar-border:           0.22 0.04 142;
+    --sidebar-ring:             0.72 0.20 142;
+
+    /* Custom game tokens */
+    --neon-green: oklch(0.82 0.22 142);
+    --neon-green-dim: oklch(0.52 0.14 142);
+    --neon-green-bright: oklch(0.92 0.24 142);
+    --neon-red: oklch(0.65 0.26 25);
+    --void: oklch(0.06 0 0);
+    --grid-line: oklch(0.13 0.02 142);
+    --scanline-color: rgba(0, 0, 0, 0.35);
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "JetBrains Mono", "Geist Mono", monospace;
+    overflow-x: hidden;
+  }
+}
+
+/* ─── CRT Scanline Effect ─────────────────────────────── */
+.crt-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    var(--scanline-color) 2px,
+    var(--scanline-color) 4px
+  );
+  mix-blend-mode: multiply;
+}
+
+/* ─── Phosphor Glow ───────────────────────────────────── */
+.glow-text {
+  text-shadow:
+    0 0 8px var(--neon-green),
+    0 0 20px oklch(0.82 0.22 142 / 0.6),
+    0 0 40px oklch(0.82 0.22 142 / 0.3);
+}
+
+.glow-text-dim {
+  text-shadow:
+    0 0 6px var(--neon-green-dim),
+    0 0 14px oklch(0.52 0.14 142 / 0.4);
+}
+
+.glow-box {
+  box-shadow:
+    0 0 0 1px oklch(0.82 0.22 142 / 0.5),
+    0 0 16px oklch(0.82 0.22 142 / 0.2),
+    0 0 40px oklch(0.82 0.22 142 / 0.1),
+    inset 0 0 20px oklch(0.82 0.22 142 / 0.05);
+}
+
+.glow-box-hover:hover {
+  box-shadow:
+    0 0 0 1px oklch(0.82 0.22 142 / 0.8),
+    0 0 24px oklch(0.82 0.22 142 / 0.35),
+    0 0 60px oklch(0.82 0.22 142 / 0.15),
+    inset 0 0 30px oklch(0.82 0.22 142 / 0.08);
+}
+
+.glow-red {
+  text-shadow:
+    0 0 8px var(--neon-red),
+    0 0 20px oklch(0.65 0.26 25 / 0.6);
+}
+
+/* ─── Pixel Button ────────────────────────────────────── */
+.pixel-btn {
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid oklch(0.82 0.22 142 / 0.6);
+  background: oklch(0.08 0 0);
+  color: oklch(0.82 0.22 142);
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+  position: relative;
+}
+
+.pixel-btn:hover {
+  background: oklch(0.14 0.04 142);
+  box-shadow:
+    0 0 0 1px oklch(0.82 0.22 142 / 0.9),
+    0 0 20px oklch(0.82 0.22 142 / 0.4);
+}
+
+.pixel-btn:active {
+  transform: scale(0.97);
+}
+
+.pixel-btn:focus-visible {
+  outline: 2px solid oklch(0.82 0.22 142);
+  outline-offset: 3px;
+}
+
+/* ─── Noise Grain Overlay ─────────────────────────────── */
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10%  { transform: translate(-2px, -3px); }
+  20%  { transform: translate(2px, 1px); }
+  30%  { transform: translate(-1px, 3px); }
+  40%  { transform: translate(3px, -2px); }
+  50%  { transform: translate(-3px, 1px); }
+  60%  { transform: translate(1px, 3px); }
+  70%  { transform: translate(-1px, -1px); }
+  80%  { transform: translate(2px, -3px); }
+  90%  { transform: translate(-2px, 2px); }
+}
+
+/* ─── Blink animation ─────────────────────────────────── */
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* ─── Flicker animation ───────────────────────────────── */
+@keyframes flicker {
+  0%   { opacity: 0.97; }
+  5%   { opacity: 0.92; }
+  10%  { opacity: 0.97; }
+  15%  { opacity: 0.94; }
+  20%  { opacity: 0.97; }
+  55%  { opacity: 0.96; }
+  60%  { opacity: 0.92; }
+  65%  { opacity: 0.97; }
+  80%  { opacity: 0.94; }
+  90%  { opacity: 0.98; }
+  100% { opacity: 0.97; }
+}
+
+.flicker {
+  animation: flicker 8s linear infinite;
+}
+
+/* ─── D-pad button ────────────────────────────────────── */
+.dpad-btn {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid oklch(0.82 0.22 142 / 0.4);
+  background: oklch(0.10 0.01 142);
+  color: oklch(0.82 0.22 142);
+  cursor: pointer;
+  transition: all 0.1s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.dpad-btn:hover, .dpad-btn:active {
+  background: oklch(0.18 0.06 142);
+  box-shadow: 0 0 12px oklch(0.82 0.22 142 / 0.4);
+  color: oklch(0.95 0.22 142);
+}
+
+.dpad-btn:active {
+  transform: scale(0.92);
+}
+
+/* ─── Score counter font ──────────────────────────────── */
+.score-num {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
